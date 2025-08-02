@@ -13,6 +13,7 @@ export const AlertRow: React.FC<AlertRowProps> = ({ alert }) => {
     <TableRow
       key={alert.id}
       hover
+      data-testid={`alert-row-${alert.id}`}
       sx={{
         cursor: 'pointer',
         '&:hover': { backgroundColor: 'action.hover' },

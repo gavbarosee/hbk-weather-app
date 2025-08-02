@@ -30,6 +30,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
 
   return (
     <Box
+      data-testid="date-range-filter"
       sx={{
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
@@ -59,6 +60,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
                       onClick={handleClearStartDate}
                       edge="end"
                       size="small"
+                      data-testid="clear-start-date-button"
                     >
                       <Clear />
                     </IconButton>
@@ -89,6 +91,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
                       onClick={handleClearEndDate}
                       edge="end"
                       size="small"
+                      data-testid="clear-end-date-button"
                     >
                       <Clear />
                     </IconButton>

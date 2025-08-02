@@ -18,7 +18,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   };
 
   return (
-    <TableHead>
+    <TableHead data-testid="table-header">
       <TableRow>
         <TableCell
           sx={{
@@ -30,6 +30,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             active={sortBy === 'event'}
             direction={sortBy === 'event' ? sortDirection : 'asc'}
             onClick={() => handleSort('event')}
+            data-testid="sort-event"
+            data-sort-by={sortBy}
+            data-sort-direction={sortDirection}
           >
             Event Type
           </TableSortLabel>
@@ -44,6 +47,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             active={sortBy === 'severity'}
             direction={sortBy === 'severity' ? sortDirection : 'asc'}
             onClick={() => handleSort('severity')}
+            data-testid="sort-severity"
+            data-sort-by={sortBy}
+            data-sort-direction={sortDirection}
           >
             Severity
           </TableSortLabel>
@@ -77,6 +83,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             active={sortBy === 'effective'}
             direction={sortBy === 'effective' ? sortDirection : 'asc'}
             onClick={() => handleSort('effective')}
+            data-testid="sort-effective"
+            data-sort-by={sortBy}
+            data-sort-direction={sortDirection}
           >
             Effective
           </TableSortLabel>
@@ -91,6 +100,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             active={sortBy === 'expires'}
             direction={sortBy === 'expires' ? sortDirection : 'asc'}
             onClick={() => handleSort('expires')}
+            data-testid="sort-expires"
+            data-sort-by={sortBy}
+            data-sort-direction={sortDirection}
           >
             Expires
           </TableSortLabel>

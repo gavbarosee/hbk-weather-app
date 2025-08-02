@@ -4,7 +4,10 @@ import React from 'react';
 
 export const EmptyState: React.FC = () => {
   return (
-    <Box sx={{ textAlign: 'center', py: 8, bgcolor: 'background.paper' }}>
+    <Box
+      data-testid="empty-state"
+      sx={{ textAlign: 'center', py: 8, bgcolor: 'background.paper' }}
+    >
       <Warning sx={{ fontSize: 48, color: 'text.disabled', mb: 2 }} />
       <Typography variant="h6" color="text.secondary" gutterBottom>
         No alerts found

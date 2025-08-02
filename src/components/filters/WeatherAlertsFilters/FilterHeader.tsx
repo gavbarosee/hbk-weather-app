@@ -27,6 +27,7 @@ export const FilterHeader: React.FC<FilterHeaderProps> = ({
 
   return (
     <Box
+      data-testid="filter-header"
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -41,6 +42,7 @@ export const FilterHeader: React.FC<FilterHeaderProps> = ({
         size="small"
         onClick={onClearAll}
         disabled={!hasActiveFilters}
+        data-testid="clear-all-button"
       >
         Clear All
       </Button>

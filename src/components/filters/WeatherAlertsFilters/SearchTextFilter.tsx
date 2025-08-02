@@ -21,6 +21,7 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
 
   return (
     <TextField
+      data-testid="search-text-filter"
       label="Search alerts"
       value={searchText || ''}
       onChange={handleChange}
@@ -36,6 +37,7 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
               onClick={handleClear}
               edge="end"
               size="small"
+              data-testid="clear-search-button"
             >
               <Clear />
             </IconButton>

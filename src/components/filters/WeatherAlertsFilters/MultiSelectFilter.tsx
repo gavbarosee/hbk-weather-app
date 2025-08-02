@@ -85,13 +85,18 @@ export const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
           onDelete={handleChipDelete(val)}
           onMouseDown={handleChipDelete(val)}
           deleteIcon={<Clear />}
+          data-testid={`chip-${val.toLowerCase().replace(/\s+/g, '-')}`}
         />
       ))}
     </Box>
   );
 
   return (
-    <FormControl size="small" fullWidth>
+    <FormControl
+      size="small"
+      fullWidth
+      data-testid={`multi-select-${label.toLowerCase().replace(/\s+/g, '-')}`}
+    >
       <InputLabel id={labelId}>{label}</InputLabel>
       <Select
         labelId={labelId}
@@ -101,6 +106,7 @@ export const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
         onChange={handleChange}
         MenuProps={MENU_PROPS}
         renderValue={renderValue}
+        data-testid={`${label.toLowerCase().replace(/\s+/g, '-')}-select`}
       >
         {options.map(option => (
           <MenuItem key={option} value={option}>
