@@ -15,6 +15,7 @@ describe('WeatherAlertsTable', () => {
     sortBy: 'effective' as SortField,
     sortDirection: 'desc' as SortDirection,
     onSort: mockOnSort,
+    onAlertClick: () => {},
   };
 
   beforeEach(() => {

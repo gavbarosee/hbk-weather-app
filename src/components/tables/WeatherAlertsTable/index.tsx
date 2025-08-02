@@ -9,6 +9,7 @@ interface WeatherAlertsTableProps {
   sortBy: SortField;
   sortDirection: SortDirection;
   onSort: (field: SortField) => void;
+  onAlertClick: (alert: AlertProperties) => void;
 }
 
 export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
@@ -16,6 +17,7 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
   sortBy,
   sortDirection,
   onSort,
+  onAlertClick,
 }) => {
   if (alerts.length === 0) {
     return <EmptyState />;
@@ -45,7 +47,11 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
         />
         <TableBody>
           {alerts.map(alert => (
-            <AlertRow key={alert.id} alert={alert} />
+            <AlertRow
+              key={alert.id}
+              alert={alert}
+              onAlertClick={onAlertClick}
+            />
           ))}
         </TableBody>
       </Table>

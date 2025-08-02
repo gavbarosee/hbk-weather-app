@@ -6,14 +6,16 @@ import { SeverityChip, StatusChip } from '../chips';
 
 interface AlertRowProps {
   alert: AlertProperties;
+  onAlertClick: (alert: AlertProperties) => void;
 }
 
-export const AlertRow: React.FC<AlertRowProps> = ({ alert }) => {
+export const AlertRow: React.FC<AlertRowProps> = ({ alert, onAlertClick }) => {
   return (
     <TableRow
       key={alert.id}
       hover
       data-testid={`alert-row-${alert.id}`}
+      onClick={() => onAlertClick(alert)}
       sx={{
         cursor: 'pointer',
         '&:hover': { backgroundColor: 'action.hover' },

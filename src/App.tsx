@@ -8,8 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { WeatherAlertsFilters } from './components/filters';
+import { WeatherAlertsFilters } from './components';
 import { WeatherAlertsTable } from './components/tables/WeatherAlertsTable';
+import { AlertDetail } from './components/tables/WeatherAlertsTable/components';
 import { weatherService } from './services/weatherService';
 import type { AlertProperties } from './types/weather';
 import type { AlertFilters as AlertFiltersType } from './utils/alertFilters';
@@ -24,6 +25,11 @@ function App() {
   const [filteredAlerts, setFilteredAlerts] = useState<AlertProperties[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Alert detail dialog state
+  const [selectedAlert, setSelectedAlert] = useState<AlertProperties | null>(
+    null
+  );
 
   // Filter and sort state
   const [filters, setFilters] = useState<AlertFiltersType>({});
@@ -85,6 +91,14 @@ function App() {
       setSortBy(field);
       setSortDirection('desc');
     }
+  };
+
+  const handleAlertClick = (alert: AlertProperties) => {
+    setSelectedAlert(alert);
+  };
+
+  const handleCloseAlert = () => {
+    setSelectedAlert(null);
   };
 
   const filterOptions = getFilterOptions(alerts);
@@ -180,10 +194,14 @@ function App() {
               sortBy={sortBy}
               sortDirection={sortDirection}
               onSort={handleSort}
+              onAlertClick={handleAlertClick}
             />
           </Box>
         )}
       </Box>
+
+      {/* Alert Detail Dialog */}
+      <AlertDetail alert={selectedAlert} onClose={handleCloseAlert} />
     </Box>
   );
 }
