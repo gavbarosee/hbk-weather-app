@@ -1,49 +1,25 @@
+import { statusColors } from '../../../../../theme';
+
+// helper function to get color by type and key
+const getColorByType = (
+  type: 'status' | 'urgency' | 'certainty',
+  key: string
+): string => {
+  const colorMap = statusColors[type];
+  const normalizedKey = key.toLowerCase() as keyof typeof colorMap;
+  return colorMap[normalizedKey] || colorMap.default;
+};
+
 export const getStatusColor = (status: string) => {
-  switch (status.toLowerCase()) {
-    case 'actual':
-      return '#d32f2f'; // error red
-    case 'exercise':
-      return '#ed6c02'; // warning orange
-    case 'system':
-      return '#0288d1'; // info blue
-    case 'test':
-      return '#2e7d32'; // success green
-    case 'draft':
-    default:
-      return '#757575'; // grey
-  }
+  return getColorByType('status', status);
 };
 
 export const getUrgencyColor = (urgency: string) => {
-  switch (urgency.toLowerCase()) {
-    case 'immediate':
-      return '#d32f2f'; // error red
-    case 'expected':
-      return '#ed6c02'; // warning orange
-    case 'future':
-      return '#0288d1'; // info blue
-    case 'past':
-      return '#2e7d32'; // success green
-    case 'unknown':
-    default:
-      return '#757575'; // grey
-  }
+  return getColorByType('urgency', urgency);
 };
 
 export const getCertaintyColor = (certainty: string) => {
-  switch (certainty.toLowerCase()) {
-    case 'observed':
-      return '#d32f2f'; // error red
-    case 'likely':
-      return '#ed6c02'; // warning orange
-    case 'possible':
-      return '#0288d1'; // info blue
-    case 'unlikely':
-      return '#2e7d32'; // success green
-    case 'unknown':
-    default:
-      return '#757575'; // grey
-  }
+  return getColorByType('certainty', certainty);
 };
 
 export const getTimeUntilExpiry = (expiresString: string) => {
