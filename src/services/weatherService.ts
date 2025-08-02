@@ -1,5 +1,6 @@
 import { config } from '../config/environment';
 import type { AlertProperties, WeatherAlertsResponse } from '../types/weather';
+import { ERROR_MESSAGES } from './constants';
 
 class WeatherService {
   private readonly baseUrl: string;
@@ -34,7 +35,7 @@ class WeatherService {
       return response.features.map(feature => feature.properties);
     } catch (error) {
       console.error('Error fetching active alerts:', error);
-      throw new Error('Failed to fetch active weather alerts');
+      throw new Error(ERROR_MESSAGES.ACTIVE_ALERTS_FAILED);
     }
   }
 
@@ -56,9 +57,7 @@ class WeatherService {
       return response.features.map(feature => feature.properties);
     } catch (error) {
       console.error('Error fetching alerts by date range:', error);
-      throw new Error(
-        'Failed to fetch weather alerts for the specified date range'
-      );
+      throw new Error(ERROR_MESSAGES.DATE_RANGE_ALERTS_FAILED);
     }
   }
 
@@ -69,7 +68,7 @@ class WeatherService {
       return response.features?.[0]?.properties || null;
     } catch (error) {
       console.error('Error fetching alert by ID:', error);
-      throw new Error('Failed to fetch weather alert details');
+      throw new Error(ERROR_MESSAGES.ALERT_BY_ID_FAILED);
     }
   }
 }
