@@ -8,8 +8,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { AlertFilters } from './components/AlertFilters';
-import { WeatherAlertsTable } from './components/WeatherAlertsTable';
+import { WeatherAlertsFilters } from './components/filters';
+import { WeatherAlertsTable } from './components/tables/WeatherAlertsTable';
 import { weatherService } from './services/weatherService';
 import type { AlertProperties } from './types/weather';
 import type { AlertFilters as AlertFiltersType } from './utils/alertFilters';
@@ -113,7 +113,7 @@ function App() {
       >
         {/* Filters Section */}
         <Box sx={{ mb: 3 }}>
-          <AlertFilters
+          <WeatherAlertsFilters
             filters={filters}
             onFiltersChange={setFilters}
             availableOptions={filterOptions}

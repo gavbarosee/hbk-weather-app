@@ -1,0 +1,1 @@
+export { WeatherAlertsTable } from './WeatherAlertsTable';
