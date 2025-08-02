@@ -1,7 +1,7 @@
 import { Clear } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import type { AlertFilters } from '../../../utils/alertFilters';
+import type { AlertFilters } from '../../../types/filters';
 
 interface FilterHeaderProps {
   onClearAll: () => void;

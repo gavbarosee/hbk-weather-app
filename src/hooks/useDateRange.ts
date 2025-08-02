@@ -1,10 +1,8 @@
 import { useState } from 'react';
+import type { DateRange } from '../types/filters';
 
 export function useDateRange() {
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({
+  const [dateRange, setDateRange] = useState<DateRange>({
     startDate: null,
     endDate: null,
   });

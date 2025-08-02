@@ -6,9 +6,11 @@ import {
   TablePagination,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { PAGINATION, TABLE_CONFIG } from '../../../constants/app';
+import type { PaginationState } from '../../../types/components';
+import type { SortDirection, SortField } from '../../../types/enums';
 import type { AlertProperties } from '../../../types/weather';
 import { AlertRow, EmptyState, TableHeader } from './components';
-import type { SortDirection, SortField } from './utils';
 
 interface WeatherAlertsTableProps {
   alerts: AlertProperties[];
@@ -25,12 +27,14 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
   onSort,
   onAlertClick,
 }) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [pagination, setPagination] = useState<PaginationState>({
+    page: 0,
+    rowsPerPage: PAGINATION.DEFAULT_PAGE_SIZE,
+  });
 
   // reset to first page when alerts data changes (due to filtering/searching)
   useEffect(() => {
-    setPage(0);
+    setPagination(prev => ({ ...prev, page: 0 }));
   }, [alerts.length]);
 
   if (alerts.length === 0) {
@@ -38,42 +42,40 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
   }
 
   // calculate which alerts to display based on pagination
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
+  const startIndex = pagination.page * pagination.rowsPerPage;
+  const endIndex = startIndex + pagination.rowsPerPage;
   const paginatedAlerts = alerts.slice(startIndex, endIndex);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
-    setPage(newPage);
+    setPagination(prev => ({ ...prev, page: newPage }));
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // reset to first page when changing rows per page
+    setPagination({
+      page: 0, // reset to first page when changing rows per page
+      rowsPerPage: parseInt(event.target.value, 10),
+    });
   };
 
   return (
     <Paper sx={{ width: '100%' }} elevation={2}>
       <TablePagination
-        rowsPerPageOptions={[25, 50, 100]}
+        rowsPerPageOptions={PAGINATION.PAGE_SIZE_OPTIONS}
         component="div"
         count={alerts.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        rowsPerPage={pagination.rowsPerPage}
+        page={pagination.page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
       <TableContainer
         sx={{
-          maxHeight: {
-            xs: 'calc(100vh - 300px)', // Account for pagination component
-            sm: 'calc(100vh - 250px)',
-            md: 550,
-          },
+          maxHeight: TABLE_CONFIG.MAX_HEIGHT,
           overflow: 'auto',
           '& .MuiTable-root': {
-            minWidth: { xs: 650, sm: 750 },
+            minWidth: TABLE_CONFIG.MIN_WIDTH,
           },
         }}
       >

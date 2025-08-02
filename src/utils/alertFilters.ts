@@ -1,16 +1,19 @@
-import type { AlertProperties, AlertSeverity } from '../types/weather';
+import { SEVERITY_ORDER } from '../constants/app';
+import type {
+  AlertSeverity,
+  SortDirection as SortDirectionType,
+  SortField as SortFieldType,
+} from '../types/enums';
+import { SortDirection, SortField } from '../types/enums';
+import type { AlertFilters, FilterOptions } from '../types/filters';
+import type { AlertProperties } from '../types/weather';
+
+export type { AlertFilters, FilterOptions } from '../types/filters';
 
 /**
  * Client-side filtering utilities for weather alerts
  * These functions are used for table filtering
  */
-
-export interface AlertFilters {
-  severity?: AlertSeverity[];
-  event?: string[];
-  status?: string[];
-  searchText?: string;
-}
 
 export function filterBySeverity(
   alerts: AlertProperties[],
@@ -79,7 +82,7 @@ export function applyAlertFilters(
   return filtered;
 }
 
-export function getFilterOptions(alerts: AlertProperties[]) {
+export function getFilterOptions(alerts: AlertProperties[]): FilterOptions {
   return {
     severities: [...new Set(alerts.map(alert => alert.severity))].filter(
       Boolean
@@ -91,41 +94,33 @@ export function getFilterOptions(alerts: AlertProperties[]) {
 
 export function sortAlerts(
   alerts: AlertProperties[],
-  sortBy: 'effective' | 'expires' | 'severity' | 'event',
-  sortDirection: 'asc' | 'desc' = 'desc'
+  sortBy: SortFieldType,
+  sortDirection: SortDirectionType = SortDirection.DESC
 ): AlertProperties[] {
   const sorted = [...alerts].sort((a, b) => {
     let comparison = 0;
 
     switch (sortBy) {
-      case 'effective':
+      case SortField.EFFECTIVE:
         comparison =
           new Date(a.effective).getTime() - new Date(b.effective).getTime();
         break;
-      case 'expires':
+      case SortField.EXPIRES:
         comparison =
           new Date(a.expires).getTime() - new Date(b.expires).getTime();
         break;
-      case 'severity': {
-        const severityOrder = {
-          Extreme: 4,
-          Severe: 3,
-          Moderate: 2,
-          Minor: 1,
-          Unknown: 0,
-        };
-
+      case SortField.SEVERITY: {
         comparison =
-          (severityOrder[a.severity as keyof typeof severityOrder] || 0) -
-          (severityOrder[b.severity as keyof typeof severityOrder] || 0);
+          (SEVERITY_ORDER[a.severity as keyof typeof SEVERITY_ORDER] || 0) -
+          (SEVERITY_ORDER[b.severity as keyof typeof SEVERITY_ORDER] || 0);
         break;
       }
-      case 'event':
+      case SortField.EVENT:
         comparison = (a.event || '').localeCompare(b.event || '');
         break;
     }
 
-    return sortDirection === 'asc' ? comparison : -comparison;
+    return sortDirection === SortDirection.ASC ? comparison : -comparison;
   });
 
   return sorted;

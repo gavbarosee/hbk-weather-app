@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { FIVE_MINUTES, TEN_MINUTES, TWO_MINUTES } from '../lib/queryClient';
+import { CACHE_TIMES, REFETCH_INTERVALS } from '../constants/app';
 import { weatherService } from '../services/weatherService';
+import type { DateRange } from '../types/filters';
 
 export const QUERY_KEYS = {
   weatherAlerts: {
@@ -22,8 +23,8 @@ export function useActiveAlerts() {
   return useQuery({
     queryKey: QUERY_KEYS.weatherAlerts.active(),
     queryFn: () => weatherService.getActiveAlerts(),
-    staleTime: TWO_MINUTES, // weather alerts change frequently
-    refetchInterval: FIVE_MINUTES, // auto-refetch every 5 minutes
+    staleTime: CACHE_TIMES.TWO_MINUTES, // weather alerts change frequently
+    refetchInterval: REFETCH_INTERVALS.ACTIVE_ALERTS, // auto-refetch every 5 minutes
   });
 }
 
@@ -38,7 +39,7 @@ export function useAlertsByDateRange(
         : [],
     queryFn: () => weatherService.getAlertsByDateRange(startDate!, endDate!),
     enabled: !!(startDate && endDate), // only run if both dates are provided
-    staleTime: FIVE_MINUTES, // historical data doesn't change as much
+    staleTime: CACHE_TIMES.FIVE_MINUTES, // historical data doesn't change as much
   });
 }
 
@@ -47,15 +48,12 @@ export function useAlertById(id: string | null) {
     queryKey: id ? QUERY_KEYS.weatherAlerts.byId(id) : [],
     queryFn: () => weatherService.getAlertById(id!),
     enabled: !!id, // only run if ID is provided
-    staleTime: TEN_MINUTES,
+    staleTime: CACHE_TIMES.TEN_MINUTES,
   });
 }
 
 // combined hook that decides which query to use based on date range
-export function useWeatherAlerts(dateRange: {
-  startDate: Date | null;
-  endDate: Date | null;
-}) {
+export function useWeatherAlerts(dateRange: DateRange) {
   const activeAlertsQuery = useActiveAlerts();
   const dateRangeQuery = useAlertsByDateRange(
     dateRange.startDate,

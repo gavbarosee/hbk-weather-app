@@ -1,3 +1,7 @@
+import type { AlertSeverity, AlertStatus, MessageType } from './enums';
+
+export type { AlertSeverity, AlertStatus, MessageType } from './enums';
+
 export interface WeatherAlert {
   id: string;
   type: string;
@@ -24,8 +28,8 @@ export interface AlertProperties {
   onset: string | null;
   expires: string;
   ends: string | null;
-  status: string;
-  messageType: string;
+  status: AlertStatus | string; // Allow string for backward compatibility
+  messageType: MessageType | string; // Allow string for backward compatibility
   category: string;
   severity: AlertSeverity;
   certainty: string;
@@ -64,5 +68,3 @@ export interface WeatherAlertsResponse {
     next: string;
   };
 }
-
-export type AlertSeverity = 'Minor' | 'Moderate' | 'Severe' | 'Extreme';

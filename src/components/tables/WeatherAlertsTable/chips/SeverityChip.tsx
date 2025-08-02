@@ -1,6 +1,6 @@
 import { Chip } from '@mui/material';
 import React from 'react';
-import type { AlertSeverity } from '../../../../types/weather';
+import type { AlertSeverity } from '../../../../types/enums';
 import { getSeverityColor } from '../utils';
 
 interface SeverityChipProps {

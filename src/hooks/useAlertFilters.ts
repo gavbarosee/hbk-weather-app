@@ -1,19 +1,23 @@
 import { useMemo, useState } from 'react';
+import type {
+  SortDirection as SortDirectionType,
+  SortField as SortFieldType,
+} from '../types/enums';
+import { SortDirection, SortField } from '../types/enums';
+import type { AlertFilters } from '../types/filters';
 import type { AlertProperties } from '../types/weather';
-import type { AlertFilters as AlertFiltersType } from '../utils/alertFilters';
 import {
   applyAlertFilters,
   getFilterOptions,
   sortAlerts,
 } from '../utils/alertFilters';
 
-export type SortField = 'effective' | 'expires' | 'severity' | 'event';
-export type SortDirection = 'asc' | 'desc';
-
 export function useAlertFilters(alerts: AlertProperties[] = []) {
-  const [filters, setFilters] = useState<AlertFiltersType>({});
-  const [sortBy, setSortBy] = useState<SortField>('effective');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [filters, setFilters] = useState<AlertFilters>({});
+  const [sortBy, setSortBy] = useState<SortFieldType>(SortField.EFFECTIVE);
+  const [sortDirection, setSortDirection] = useState<SortDirectionType>(
+    SortDirection.DESC
+  );
 
   // memoized filtered and sorted alerts
   const filteredAlerts = useMemo(() => {
@@ -25,12 +29,16 @@ export function useAlertFilters(alerts: AlertProperties[] = []) {
   // memoized filter options based on all available alerts
   const filterOptions = useMemo(() => getFilterOptions(alerts), [alerts]);
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field: SortFieldType) => {
     if (sortBy === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(
+        sortDirection === SortDirection.ASC
+          ? SortDirection.DESC
+          : SortDirection.ASC
+      );
     } else {
       setSortBy(field);
-      setSortDirection('desc');
+      setSortDirection(SortDirection.DESC);
     }
   };
 
@@ -39,8 +47,8 @@ export function useAlertFilters(alerts: AlertProperties[] = []) {
   };
 
   const resetSort = () => {
-    setSortBy('effective');
-    setSortDirection('desc');
+    setSortBy(SortField.EFFECTIVE);
+    setSortDirection(SortDirection.DESC);
   };
 
   return {

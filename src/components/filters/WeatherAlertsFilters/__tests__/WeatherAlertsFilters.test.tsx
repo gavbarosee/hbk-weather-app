@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { AlertSeverity } from '../../../../types/weather';
-import type { AlertFilters } from '../../../../utils/alertFilters';
+import type { AlertSeverity } from '../../../../types/enums';
+import type { AlertFilters } from '../../../../types/filters';
 import { WeatherAlertsFilters } from '../index';
 
 describe('WeatherAlertsFilters', () => {

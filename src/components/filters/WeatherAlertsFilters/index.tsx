@@ -1,7 +1,11 @@
 import { Box, Card, CardContent } from '@mui/material';
 import React from 'react';
-import type { AlertSeverity } from '../../../types/weather';
-import type { AlertFilters as AlertFiltersType } from '../../../utils/alertFilters';
+import type { AlertSeverity } from '../../../types/enums';
+import type {
+  AlertFilters,
+  DateRange,
+  FilterOptions,
+} from '../../../types/filters';
 import { FilterSection } from '../../ui/FilterSection';
 import { DateRangeFilter } from './DateRangeFilter';
 import { FilterHeader } from './FilterHeader';
@@ -9,21 +13,11 @@ import { MultiSelectFilter } from './MultiSelectFilter';
 import { SearchTextFilter } from './SearchTextFilter';
 
 interface WeatherAlertsFiltersProps {
-  filters: AlertFiltersType;
-  onFiltersChange: (filters: AlertFiltersType) => void;
-  availableOptions: {
-    severities: string[];
-    events: string[];
-    statuses: string[];
-  };
-  dateRange: {
-    startDate: Date | null;
-    endDate: Date | null;
-  };
-  onDateRangeChange: (range: {
-    startDate: Date | null;
-    endDate: Date | null;
-  }) => void;
+  filters: AlertFilters;
+  onFiltersChange: (filters: AlertFilters) => void;
+  availableOptions: FilterOptions;
+  dateRange: DateRange;
+  onDateRangeChange: (range: DateRange) => void;
 }
 
 export const WeatherAlertsFilters: React.FC<WeatherAlertsFiltersProps> = ({

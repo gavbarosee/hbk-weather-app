@@ -1,4 +1,4 @@
-import type { AlertSeverity } from '../../../types/weather';
+import { AlertSeverity } from '../../../types/enums';
 
 export type SeverityColor =
   | 'error'
@@ -9,13 +9,13 @@ export type SeverityColor =
 
 export const getSeverityColor = (severity: AlertSeverity): SeverityColor => {
   switch (severity) {
-    case 'Extreme':
+    case AlertSeverity.EXTREME:
       return 'error';
-    case 'Severe':
+    case AlertSeverity.SEVERE:
       return 'warning';
-    case 'Moderate':
+    case AlertSeverity.MODERATE:
       return 'info';
-    case 'Minor':
+    case AlertSeverity.MINOR:
       return 'success';
     default:
       return 'default';
@@ -26,5 +26,6 @@ export const formatDateTime = (dateString: string) => {
   return new Date(dateString).toLocaleString();
 };
 
-export type SortField = 'effective' | 'expires' | 'severity' | 'event';
-export type SortDirection = 'asc' | 'desc';
+// Note: SortField and SortDirection types are now defined in src/types/enums.ts
+// Re-export them here for backward compatibility if needed
+export type { SortDirection, SortField } from '../../../types/enums';

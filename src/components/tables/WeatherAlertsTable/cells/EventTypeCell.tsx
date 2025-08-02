@@ -1,7 +1,7 @@
 import { Warning } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import type { AlertSeverity } from '../../../../types/weather';
+import type { AlertSeverity } from '../../../../types/enums';
 import { getSeverityColor } from '../utils';
 
 interface EventTypeCellProps {

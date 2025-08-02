@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createTestAlert } from '../../services/__tests__/fixtures/weatherData';
-import type { AlertSeverity } from '../../types/weather';
+import type { AlertSeverity } from '../../types/enums';
 import {
   applyAlertFilters,
   filterByEvent,
