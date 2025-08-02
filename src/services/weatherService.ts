@@ -60,17 +60,6 @@ class WeatherService {
       throw new Error(ERROR_MESSAGES.DATE_RANGE_ALERTS_FAILED);
     }
   }
-
-  // Get a specific alert by ID
-  async getAlertById(id: string): Promise<AlertProperties | null> {
-    try {
-      const response = await this.makeRequest(`${this.baseUrl}/alerts/${id}`);
-      return response.features?.[0]?.properties || null;
-    } catch (error) {
-      console.error('Error fetching alert by ID:', error);
-      throw new Error(ERROR_MESSAGES.ALERT_BY_ID_FAILED);
-    }
-  }
 }
 
 export const weatherService = new WeatherService();

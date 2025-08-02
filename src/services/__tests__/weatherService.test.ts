@@ -8,7 +8,6 @@ import { weatherService } from '../weatherService';
 import {
   createMockResponse,
   mockActiveAlertsResponse,
-  mockAlertByIdResponse,
   mockDateRangeAlertsResponse,
 } from './fixtures/weatherData';
 
@@ -108,33 +107,6 @@ describe('WeatherService', () => {
       await expect(
         weatherService.getAlertsByDateRange(startDate, endDate)
       ).rejects.toThrow(ERROR_MESSAGES.DATE_RANGE_ALERTS_FAILED);
-    });
-  });
-
-  describe('getAlertById', () => {
-    const alertId = 'urn:oid:2.49.0.1.840.0.123abc';
-
-    it('should fetch a specific alert by ID successfully', async () => {
-      mockResponse(ENDPOINTS.alertById, mockAlertByIdResponse);
-
-      const alert = await weatherService.getAlertById(alertId);
-
-      expect(alert).toEqual(mockAlertByIdResponse.features[0].properties);
-    });
-
-    it('should return null when alert is not found', async () => {
-      mockResponse(ENDPOINTS.alertById, createMockResponse([]));
-
-      const alert = await weatherService.getAlertById('non-existent');
-      expect(alert).toBeNull();
-    });
-
-    it('should handle HTTP errors', async () => {
-      mockHttpError(ENDPOINTS.alertById, 404);
-
-      await expect(weatherService.getAlertById('test-id')).rejects.toThrow(
-        ERROR_MESSAGES.ALERT_BY_ID_FAILED
-      );
     });
   });
 });

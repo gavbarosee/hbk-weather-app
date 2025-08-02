@@ -43,15 +43,6 @@ export function useAlertsByDateRange(
   });
 }
 
-export function useAlertById(id: string | null) {
-  return useQuery({
-    queryKey: id ? QUERY_KEYS.weatherAlerts.byId(id) : [],
-    queryFn: () => weatherService.getAlertById(id!),
-    enabled: !!id, // only run if ID is provided
-    staleTime: CACHE_TIMES.TEN_MINUTES,
-  });
-}
-
 // combined hook that decides which query to use based on date range
 export function useWeatherAlerts(dateRange: DateRange) {
   const activeAlertsQuery = useActiveAlerts();
