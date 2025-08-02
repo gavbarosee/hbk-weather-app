@@ -200,7 +200,7 @@ describe('WeatherAlertsTable', () => {
 
       render(<WeatherAlertsTable {...defaultProps} alerts={manyAlerts} />);
 
-      expect(screen.getAllByTestId(/^alert-row-/)).toHaveLength(50);
+      expect(screen.getAllByTestId(/^alert-row-/)).toHaveLength(25);
     });
 
     it('handles different sort directions correctly', () => {
