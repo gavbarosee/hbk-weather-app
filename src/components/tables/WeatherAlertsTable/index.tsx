@@ -54,7 +54,7 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
   };
 
   return (
-    <Paper sx={{ width: '100%' }}>
+    <Paper sx={{ width: '100%' }} elevation={2}>
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
         component="div"

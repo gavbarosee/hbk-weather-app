@@ -1,131 +1,50 @@
-import {
-  Alert,
-  AppBar,
-  Box,
-  CircularProgress,
-  CssBaseline,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { WeatherAlertsFilters } from './components';
-import { WeatherAlertsTable } from './components/tables/WeatherAlertsTable';
 import { AlertDetail } from './components/tables/WeatherAlertsTable/components';
-import { weatherService } from './services/weatherService';
-import type { AlertProperties } from './types/weather';
-import type { AlertFilters as AlertFiltersType } from './utils/alertFilters';
 import {
-  applyAlertFilters,
-  getFilterOptions,
-  sortAlerts,
-} from './utils/alertFilters';
+  ErrorState,
+  HeaderBar,
+  LoadingState,
+  ResultsSection,
+} from './components/ui';
+import {
+  useAlertFilters,
+  useAlertSelection,
+  useDateRange,
+  useWeatherAlerts,
+} from './hooks';
 
 function App() {
-  const [alerts, setAlerts] = useState<AlertProperties[]>([]);
-  const [filteredAlerts, setFilteredAlerts] = useState<AlertProperties[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // date range management
+  const { dateRange, setDateRange } = useDateRange();
 
-  // Alert detail dialog state
-  const [selectedAlert, setSelectedAlert] = useState<AlertProperties | null>(
-    null
-  );
+  // data fetching with reactquery
+  const { data: alerts = [], isLoading, error } = useWeatherAlerts(dateRange);
 
-  // Filter and sort state
-  const [filters, setFilters] = useState<AlertFiltersType>({});
-  const [sortBy, setSortBy] = useState<
-    'effective' | 'expires' | 'severity' | 'event'
-  >('effective');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
+  // filtering and sorting
+  const {
+    filters,
+    setFilters,
+    sortBy,
+    sortDirection,
+    filteredAlerts,
+    filterOptions,
+    handleSort,
+    totalAlerts,
+    filteredCount,
+  } = useAlertFilters(alerts);
 
-  useEffect(() => {
-    const loadAlerts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        let alertsData: AlertProperties[];
-
-        // if date range is specified, we use it, otherwise we get active alerts
-        if (dateRange.startDate && dateRange.endDate) {
-          alertsData = await weatherService.getAlertsByDateRange(
-            dateRange.startDate,
-            dateRange.endDate
-          );
-        } else {
-          alertsData = await weatherService.getActiveAlerts();
-        }
-
-        setAlerts(alertsData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load alerts');
-        console.error('Error loading alerts:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadAlerts();
-  }, [dateRange]);
-
-  // Apply filters and sorting whenever alerts or filters change
-  useEffect(() => {
-    let result = applyAlertFilters(alerts, filters);
-    result = sortAlerts(result, sortBy, sortDirection);
-    setFilteredAlerts(result);
-  }, [alerts, filters, sortBy, sortDirection]);
-
-  const handleSort = (
-    field: 'effective' | 'expires' | 'severity' | 'event'
-  ) => {
-    if (sortBy === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(field);
-      setSortDirection('desc');
-    }
-  };
-
-  const handleAlertClick = (alert: AlertProperties) => {
-    setSelectedAlert(alert);
-  };
-
-  const handleCloseAlert = () => {
-    setSelectedAlert(null);
-  };
-
-  const filterOptions = getFilterOptions(alerts);
+  // alert selection for detail dialog
+  const { selectedAlert, handleAlertClick, handleCloseAlert } =
+    useAlertSelection();
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <CssBaseline />
+      <HeaderBar title="Weather Alerts Dashboard" />
 
-      {/* Header */}
-      <AppBar position="static" elevation={1}>
-        <Toolbar>
-          <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
-            Weather Alerts Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      {/* Main Content */}
-      <Box
-        sx={{
-          width: '100%',
-          py: { xs: 1, sm: 2, md: 3 },
-          px: { xs: 1, sm: 2, md: 3 },
-          maxWidth: { xs: '100vw', sm: '100%' },
-        }}
-      >
-        {/* Filters Section */}
+      {/* MAIN CONTENT */}
+      <Box sx={{ py: { xs: 1, sm: 2, md: 3 }, px: { xs: 1, sm: 2, md: 3 } }}>
+        {/* FILTERS SECTION */}
         <Box sx={{ mb: 3 }}>
           <WeatherAlertsFilters
             filters={filters}
@@ -136,71 +55,27 @@ function App() {
           />
         </Box>
 
-        {/* Loading State */}
-        {loading && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: 300,
-              flexDirection: 'column',
-              gap: 2,
-            }}
-          >
-            <CircularProgress />
-            <Typography variant="body2" color="textSecondary">
-              Loading weather alerts...
-            </Typography>
-          </Box>
-        )}
+        {/* LOADING STATE */}
+        <LoadingState isLoading={isLoading} />
 
-        {/* Error State */}
-        {error && (
-          <Alert severity="error" sx={{ mb: 3 }}>
-            {error}
-          </Alert>
-        )}
+        {/* ERROR STATE */}
+        <ErrorState error={error} />
 
-        {/* Results */}
-        {!loading && !error && (
-          <Box sx={{ width: '100%' }}>
-            {/* Results Header */}
-            <Box
-              sx={{
-                p: { xs: 1.5, sm: 2, md: 3 },
-                borderBottom: 1,
-                borderColor: 'divider',
-                bgcolor: 'background.paper',
-                borderRadius: '4px 4px 0 0',
-                width: '100%',
-              }}
-            >
-              <Typography variant="h6" component="h2">
-                Weather Alerts ({filteredAlerts.length})
-              </Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ mt: 0.5 }}
-              >
-                Showing {filteredAlerts.length} of {alerts.length} total alerts
-              </Typography>
-            </Box>
-
-            {/* Table */}
-            <WeatherAlertsTable
-              alerts={filteredAlerts}
-              sortBy={sortBy}
-              sortDirection={sortDirection}
-              onSort={handleSort}
-              onAlertClick={handleAlertClick}
-            />
-          </Box>
+        {/* RESULTS SECTION */}
+        {!isLoading && !error && (
+          <ResultsSection
+            alerts={filteredAlerts}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
+            onSort={handleSort}
+            onAlertClick={handleAlertClick}
+            filteredCount={filteredCount}
+            totalAlerts={totalAlerts}
+          />
         )}
       </Box>
 
-      {/* Alert Detail Dialog */}
+      {/* ALERT DETAIL DIALOG */}
       <AlertDetail alert={selectedAlert} onClose={handleCloseAlert} />
     </Box>
   );
