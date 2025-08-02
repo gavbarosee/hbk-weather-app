@@ -63,6 +63,7 @@ export const WeatherAlertsTable: React.FC<WeatherAlertsTableProps> = ({
     <Paper sx={{ width: '100%' }} elevation={2}>
       <TablePagination
         rowsPerPageOptions={PAGINATION.PAGE_SIZE_OPTIONS}
+        labelRowsPerPage="Weather alerts per page"
         component="div"
         count={alerts.length}
         rowsPerPage={pagination.rowsPerPage}
