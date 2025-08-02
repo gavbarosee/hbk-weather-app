@@ -82,6 +82,10 @@ export const WeatherAlertsFilters: React.FC<WeatherAlertsFiltersProps> = ({
       status: [],
       searchText: '',
     });
+    onDateRangeChange({
+      startDate: null,
+      endDate: null,
+    });
   };
 
   const handleSearchTextChange = (value: string) => {
@@ -94,7 +98,11 @@ export const WeatherAlertsFilters: React.FC<WeatherAlertsFiltersProps> = ({
   return (
     <Card elevation={2} sx={{ width: '100%' }}>
       <CardContent sx={{ p: { xs: 1.5, sm: 2, md: 3 } }}>
-        <FilterHeader filters={filters} onClearAll={clearAllFilters} />
+        <FilterHeader
+          filters={filters}
+          dateRange={dateRange}
+          onClearAll={clearAllFilters}
+        />
 
         <FilterSection title="Date Range">
           <DateRangeFilter

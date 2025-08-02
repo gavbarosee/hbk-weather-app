@@ -1,4 +1,5 @@
-import { TextField } from '@mui/material';
+import { Clear } from '@mui/icons-material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 
 interface SearchTextFilterProps {
@@ -14,6 +15,10 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
     onSearchTextChange(event.target.value);
   };
 
+  const handleClear = () => {
+    onSearchTextChange('');
+  };
+
   return (
     <TextField
       label="Search alerts"
@@ -23,6 +28,20 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
       size="small"
       fullWidth
       sx={{ maxWidth: { xs: '100%', sm: 400 } }}
+      InputProps={{
+        endAdornment: searchText ? (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="clear search"
+              onClick={handleClear}
+              edge="end"
+              size="small"
+            >
+              <Clear />
+            </IconButton>
+          </InputAdornment>
+        ) : null,
+      }}
     />
   );
 };

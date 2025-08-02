@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import { Clear } from '@mui/icons-material';
+import { Box, IconButton, InputAdornment } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -19,6 +20,14 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
   dateRange,
   onDateRangeChange,
 }) => {
+  const handleClearStartDate = () => {
+    onDateRangeChange({ ...dateRange, startDate: null });
+  };
+
+  const handleClearEndDate = () => {
+    onDateRangeChange({ ...dateRange, endDate: null });
+  };
+
   return (
     <Box
       sx={{
@@ -42,6 +51,20 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
                 minWidth: { xs: '100%', sm: 160 },
                 maxWidth: { xs: '100%', sm: 200 },
               },
+              InputProps: {
+                endAdornment: dateRange.startDate ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="clear start date"
+                      onClick={handleClearStartDate}
+                      edge="end"
+                      size="small"
+                    >
+                      <Clear />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
+              },
             },
           }}
         />
@@ -57,6 +80,20 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
               sx: {
                 minWidth: { xs: '100%', sm: 160 },
                 maxWidth: { xs: '100%', sm: 200 },
+              },
+              InputProps: {
+                endAdornment: dateRange.endDate ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="clear end date"
+                      onClick={handleClearEndDate}
+                      edge="end"
+                      size="small"
+                    >
+                      <Clear />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
               },
             },
           }}

@@ -6,17 +6,24 @@ import type { AlertFilters } from '../../../utils/alertFilters';
 interface FilterHeaderProps {
   onClearAll: () => void;
   filters: AlertFilters;
+  dateRange: {
+    startDate: Date | null;
+    endDate: Date | null;
+  };
 }
 
 export const FilterHeader: React.FC<FilterHeaderProps> = ({
   onClearAll,
   filters,
+  dateRange,
 }) => {
   const hasActiveFilters =
     !!filters.searchText ||
     (filters.severity && filters.severity.length > 0) ||
     (filters.event && filters.event.length > 0) ||
-    (filters.status && filters.status.length > 0);
+    (filters.status && filters.status.length > 0) ||
+    !!dateRange.startDate ||
+    !!dateRange.endDate;
 
   return (
     <Box
