@@ -27,7 +27,7 @@ export interface AlertProperties {
   status: string;
   messageType: string;
   category: string;
-  severity: string;
+  severity: AlertSeverity;
   certainty: string;
   urgency: string;
   event: string;
@@ -65,5 +65,4 @@ export interface WeatherAlertsResponse {
   };
 }
 
-// Essential enum for alert severity
 export type AlertSeverity = 'Minor' | 'Moderate' | 'Severe' | 'Extreme';

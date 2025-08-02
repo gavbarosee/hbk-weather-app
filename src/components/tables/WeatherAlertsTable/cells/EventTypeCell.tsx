@@ -1,11 +1,12 @@
 import { Warning } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import type { AlertSeverity } from '../../../../types/weather';
 import { getSeverityColor } from '../utils';
 
 interface EventTypeCellProps {
   event: string;
-  severity: string;
+  severity: AlertSeverity;
   headline?: string | null;
 }
 

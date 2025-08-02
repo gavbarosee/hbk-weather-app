@@ -1,4 +1,13 @@
-export const getSeverityColor = (severity: string) => {
+import type { AlertSeverity } from '../../../types/weather';
+
+export type SeverityColor =
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'success'
+  | 'default';
+
+export const getSeverityColor = (severity: AlertSeverity): SeverityColor => {
   switch (severity) {
     case 'Extreme':
       return 'error';

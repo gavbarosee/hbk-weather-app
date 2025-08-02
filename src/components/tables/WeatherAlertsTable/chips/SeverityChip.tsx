@@ -1,9 +1,10 @@
 import { Chip } from '@mui/material';
 import React from 'react';
+import type { AlertSeverity } from '../../../../types/weather';
 import { getSeverityColor } from '../utils';
 
 interface SeverityChipProps {
-  severity: string;
+  severity: AlertSeverity;
 }
 
 export const SeverityChip: React.FC<SeverityChipProps> = ({ severity }) => {
