@@ -8,8 +8,6 @@ import { SortDirection, SortField } from '../types/enums';
 import type { AlertFilters, FilterOptions } from '../types/filters';
 import type { AlertProperties } from '../types/weather';
 
-export type { AlertFilters, FilterOptions } from '../types/filters';
-
 /**
  * Client-side filtering utilities for weather alerts
  * These functions are used for table filtering
