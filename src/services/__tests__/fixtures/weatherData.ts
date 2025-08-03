@@ -117,31 +117,6 @@ export const mockDateRangeAlertsResponse: WeatherAlertsResponse = {
   updated: '2024-01-15T18:00:00Z',
 };
 
-export const mockAlertByIdResponse: WeatherAlertsResponse = {
-  '@context': {
-    '@version': '1.1',
-    wx: 'https://api.weather.gov/ontology#',
-  },
-  type: 'FeatureCollection',
-  features: [
-    {
-      id: 'specific-alert',
-      type: 'Feature',
-      geometry: null,
-      properties: mockAlertProperties,
-    },
-  ],
-  title: 'Weather alert details',
-  updated: '2024-01-15T18:00:00Z',
-};
-
-export const createMockAlert = (
-  overrides: Partial<AlertProperties> = {}
-): AlertProperties => ({
-  ...mockAlertProperties,
-  ...overrides,
-});
-
 export const createMockResponse = (
   features: Array<{ id: string; properties: AlertProperties }> = []
 ): WeatherAlertsResponse => ({
