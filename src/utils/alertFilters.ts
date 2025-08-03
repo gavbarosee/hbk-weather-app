@@ -46,13 +46,19 @@ export function filterBySearchText(
   if (!searchText.trim()) return alerts;
 
   const search = searchText.toLowerCase();
-  return alerts.filter(
-    alert =>
-      alert.headline?.toLowerCase().includes(search) ||
-      alert.description?.toLowerCase().includes(search) ||
-      alert.areaDesc?.toLowerCase().includes(search) ||
-      alert.event?.toLowerCase().includes(search)
-  );
+  return alerts.filter(alert => {
+    const headline = alert.headline?.toLowerCase() || '';
+    const description = alert.description?.toLowerCase() || '';
+    const areaDesc = alert.areaDesc?.toLowerCase() || '';
+    const event = alert.event?.toLowerCase() || '';
+
+    return (
+      headline.includes(search) ||
+      description.includes(search) ||
+      areaDesc.includes(search) ||
+      event.includes(search)
+    );
+  });
 }
 
 export function applyAlertFilters(
