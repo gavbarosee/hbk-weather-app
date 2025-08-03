@@ -1,69 +1,91 @@
-# React + TypeScript + Vite
+# Weather Alerts Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive web app built with React and Typescript for browsing and filtering weather alerts from the National Weather Service API.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Requirements:**
 
-## Expanding the ESLint configuration
+Ensure you have Node 20+ (Node `23.6.0` ideal) installed, ideally with `nvm`:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 20+
+- npm 10+
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Installation:**
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Pull the repository locally, `cd` into it and then run:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Testing
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Run the test suite with:
+
+```bash
+npm test
 ```
+
+## Demo
+
+**Live Demo:**
+
+You can explore a live demo of the app here https://calm-dolphin-279085.netlify.app
+
+**Screenshots:**
+
+- Filters interface:
+- Main alerts table:
+- Alert details view:
+
+## Features
+
+The app meets all the requirements from the specification, but its worth mentioning the full list of features:
+
+- **Smart Filtering:** Filter alerts by date range (with presets available), severity, event type, and search text
+- **Efficient Data Handling:** No redundant API calls, alert details use cached data
+- **Responsive Table:** Sortable columns with pagination controls positioned for easy access
+- **Responsive UI:** Designed for mobile, tablet and desktop
+- **Detail Views:** Comprehensive alert information with both technical and general details
+- **Clean UX:** Clearable inputs throughout for better user experience, inputs neatly organized, preset date ranges, pagination controls at the top of the table
+- **Background Updates:** Automatic data refresh every 5 minutes plus on window focus, without disrupting the UI
+
+## Architecture
+
+Overall, I've built the app with modern React patterns:
+
+- React Query for data fetching and caching
+- Custom hooks for clean separation of concerns
+- Error boundaries for isolated error handling
+- TypeScript for type safety
+- Material-UI for consistent design
+- Vitest for testing
+
+## Development
+
+For code quality I've setup the following:
+
+- ESLint and Prettier for consistent formatting
+- Pre-commit hooks ensure tests pass and that the code style is right before commits
+- Comprehensive test coverage for core components
+
+## Potential Improvements
+
+Those are some improvements I'd add in a production setting if I had more time:
+
+- E2E testing with Playwright
+- Table density options for different user preferences
+- Virtual scrolling for large datasets
+- Enhanced search with fuzzy matching ideally with a robust yet lightweight library
+- Semantic HTML improvements
+- Keyboard navigation for inputs, depending on the type of user who'd use this app
+- Cross-IDE editor configuration
+- Bundle analysis and tree-shaking optimization
+- React re-render profiling and optimization (i.e why-did-you-render with React Profiler)
+- Lighthouse performance auditing
+- Code splitting for route-based lazy loading
+- Core Web Vitals monitoring
