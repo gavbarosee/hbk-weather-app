@@ -13,7 +13,13 @@ Ensure you have Node 20+ (Node `23.6.0` ideal) installed, ideally with `nvm`:
 
 **Installation:**
 
-Pull the repository locally, `cd` into it and then run:
+Pull the repository locally, and change into it:
+
+```bash
+cd hbk-weather-app
+```
+
+Then run:
 
 ```bash
 npm install
@@ -34,13 +40,26 @@ npm test
 
 **Live Demo:**
 
-You can explore a live demo of the app here https://calm-dolphin-279085.netlify.app
+You can explore a live demo of the app here https://nws-weather-alerts-app.netlify.app
 
 **Screenshots:**
 
-- Filters interface:
-- Main alerts table:
-- Alert details view:
+Filters interface:
+
+  <img width="1629" height="834" alt="Screenshot 2025-08-03 at 17 39 16" src="https://github.com/user-attachments/assets/44880878-ef7b-4af9-8b12-205f068781dd" /> 
+
+
+Main alerts table:
+
+  <img width="1458" height="787" alt="Screenshot 2025-08-03 at 17 40 50" src="https://github.com/user-attachments/assets/3e34a560-a07e-4498-851b-10b917b87f48" />
+
+
+Alert details view:
+
+  <img width="1464" height="821" alt="Screenshot 2025-08-03 at 17 41 36" src="https://github.com/user-attachments/assets/bb913ea7-cc7c-48a0-acd3-c3f9f13a14aa" />
+  <img width="1473" height="820" alt="Screenshot 2025-08-03 at 17 42 09" src="https://github.com/user-attachments/assets/0ea8c755-0688-417c-a3a0-8c02222a4b79" />
+  <img width="1370" height="813" alt="Screenshot 2025-08-03 at 17 42 27" src="https://github.com/user-attachments/assets/c978d556-8ca4-4ace-9cd6-448dc27ae279" />
+
 
 ## Features
 
@@ -51,7 +70,7 @@ The app meets all the requirements from the specification, but its worth mention
 - **Responsive Table:** Sortable columns with pagination controls positioned for easy access
 - **Responsive UI:** Designed for mobile, tablet and desktop
 - **Detail Views:** Comprehensive alert information with both technical and general details
-- **Clean UX:** Clearable inputs throughout for better user experience, inputs neatly organized, preset date ranges, pagination controls at the top of the table
+- **Clean UX:** Clearable inputs throughout for better user experience, inputs neatly organized, preset date ranges, pagination controls at the top of the table, local timezone display
 - **Background Updates:** Automatic data refresh every 5 minutes plus on window focus, without disrupting the UI
 
 ## Architecture
