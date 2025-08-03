@@ -177,6 +177,163 @@ describe('WeatherAlertsFilters', () => {
         endDate: null,
       });
     });
+
+    describe('Date Range Presets', () => {
+      it('renders all preset buttons', () => {
+        render(<WeatherAlertsFilters {...defaultProps} />);
+
+        expect(screen.getByTestId('preset-today')).toBeInTheDocument();
+        expect(screen.getByTestId('preset-past-week')).toBeInTheDocument();
+        expect(screen.getByTestId('preset-past-month')).toBeInTheDocument();
+        expect(screen.getByTestId('preset-past-quarter')).toBeInTheDocument();
+        expect(screen.getByTestId('preset-past-year')).toBeInTheDocument();
+        expect(screen.getByTestId('preset-clear-all')).toBeInTheDocument();
+      });
+
+      it('sets today range when Today preset is clicked', async () => {
+        const user = userEvent.setup();
+        render(<WeatherAlertsFilters {...defaultProps} />);
+
+        const todayButton = screen.getByTestId('preset-today');
+        await user.click(todayButton);
+
+        expect(mockOnDateRangeChange).toHaveBeenCalled();
+        const call = mockOnDateRangeChange.mock.calls[0][0];
+
+        expect(call.startDate).toBeInstanceOf(Date);
+        expect(call.endDate).toBeInstanceOf(Date);
+
+        const today = new Date();
+        const startDate = call.startDate as Date;
+        const endDate = call.endDate as Date;
+
+        expect(startDate.getDate()).toBe(today.getDate());
+        expect(startDate.getMonth()).toBe(today.getMonth());
+        expect(startDate.getFullYear()).toBe(today.getFullYear());
+
+        expect(endDate.getDate()).toBe(today.getDate());
+        expect(endDate.getMonth()).toBe(today.getMonth());
+        expect(endDate.getFullYear()).toBe(today.getFullYear());
+      });
+
+      it('sets past week range when Past Week preset is clicked', async () => {
+        const user = userEvent.setup();
+        render(<WeatherAlertsFilters {...defaultProps} />);
+
+        const pastWeekButton = screen.getByTestId('preset-past-week');
+        await user.click(pastWeekButton);
+
+        expect(mockOnDateRangeChange).toHaveBeenCalled();
+        const call = mockOnDateRangeChange.mock.calls[0][0];
+
+        expect(call.startDate).toBeInstanceOf(Date);
+        expect(call.endDate).toBeInstanceOf(Date);
+
+        const now = new Date();
+        const startDate = call.startDate as Date;
+        const daysDiff = Math.floor(
+          (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
+        expect(daysDiff).toBe(7);
+      });
+
+      it('sets past month range when Past Month preset is clicked', async () => {
+        const user = userEvent.setup();
+        render(<WeatherAlertsFilters {...defaultProps} />);
+
+        const pastMonthButton = screen.getByTestId('preset-past-month');
+        await user.click(pastMonthButton);
+
+        expect(mockOnDateRangeChange).toHaveBeenCalled();
+        const call = mockOnDateRangeChange.mock.calls[0][0];
+
+        expect(call.startDate).toBeInstanceOf(Date);
+        expect(call.endDate).toBeInstanceOf(Date);
+
+        const now = new Date();
+        const startDate = call.startDate as Date;
+        const daysDiff = Math.floor(
+          (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
+        expect(daysDiff).toBe(30);
+      });
+
+      it('clears both dates when Clear Dates preset is clicked', async () => {
+        const user = userEvent.setup();
+        const propsWithDates = {
+          ...defaultProps,
+          dateRange: {
+            startDate: new Date('2024-01-01'),
+            endDate: new Date('2024-01-31'),
+          },
+        };
+
+        render(<WeatherAlertsFilters {...propsWithDates} />);
+
+        const clearAllButton = screen.getByTestId('preset-clear-all');
+        await user.click(clearAllButton);
+
+        expect(mockOnDateRangeChange).toHaveBeenCalledWith({
+          startDate: null,
+          endDate: null,
+        });
+      });
+
+      it('displays Quick Date Range Select label', () => {
+        render(<WeatherAlertsFilters {...defaultProps} />);
+
+        expect(
+          screen.getByText('Quick Date Range Select:')
+        ).toBeInTheDocument();
+      });
+
+      it('shows active state for current preset when dates match', () => {
+        const now = new Date();
+        const today = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+        const pastWeekStart = new Date(
+          today.getTime() - 7 * 24 * 60 * 60 * 1000
+        );
+
+        const propsWithPastWeek = {
+          ...defaultProps,
+          dateRange: {
+            startDate: pastWeekStart,
+            endDate: now,
+          },
+        };
+
+        render(<WeatherAlertsFilters {...propsWithPastWeek} />);
+
+        const pastWeekButton = screen.getByTestId('preset-past-week');
+
+        expect(pastWeekButton).toBeInTheDocument();
+        expect(pastWeekButton).toHaveClass('MuiChip-filled');
+      });
+
+      it('shows no active state when no preset matches current dates', () => {
+        const customDateRange = {
+          ...defaultProps,
+          dateRange: {
+            startDate: new Date('2024-01-01'),
+            endDate: new Date('2024-01-15'),
+          },
+        };
+
+        render(<WeatherAlertsFilters {...customDateRange} />);
+
+        const todayButton = screen.getByTestId('preset-today');
+        const pastWeekButton = screen.getByTestId('preset-past-week');
+        const pastMonthButton = screen.getByTestId('preset-past-month');
+
+        expect(todayButton).toHaveClass('MuiChip-outlined');
+        expect(pastWeekButton).toHaveClass('MuiChip-outlined');
+        expect(pastMonthButton).toHaveClass('MuiChip-outlined');
+      });
+    });
   });
 
   describe('Multi-Select Filters', () => {

@@ -29,3 +29,12 @@ export const CACHE_TIMES = {
 export const REFETCH_INTERVALS = {
   ACTIVE_ALERTS: 1000 * 60 * 5, // 5 minutes for active alerts
 } as const;
+
+export const DATE_RANGE_PRESETS = {
+  DAYS_IN_WEEK: 7,
+  DAYS_IN_MONTH: 30,
+  DAYS_IN_QUARTER: 90,
+  DAYS_IN_YEAR: 365,
+  MILLISECONDS_PER_DAY: 24 * 60 * 60 * 1000,
+  PRESET_TOLERANCE_MS: 60 * 1000,
+} as const;
