@@ -27,47 +27,39 @@ export const WeatherAlertsFilters: React.FC<WeatherAlertsFiltersProps> = ({
   dateRange,
   onDateRangeChange,
 }) => {
+  // generic filter handler factory to reduce repetition
+  const createFilterHandler = <T extends keyof AlertFilters>(filterKey: T) => ({
+    onChange: (values: AlertFilters[T]) => {
+      onFiltersChange({
+        ...filters,
+        [filterKey]: values,
+      });
+    },
+    onRemove: (valueToRemove: string) => {
+      const currentValues = (filters[filterKey] as string[]) || [];
+      const updatedValues = currentValues.filter(
+        item => item !== valueToRemove
+      );
+      onFiltersChange({
+        ...filters,
+        [filterKey]: updatedValues,
+      });
+    },
+  });
+
+  const severityHandlers = createFilterHandler('severity');
+  const eventHandlers = createFilterHandler('event');
+  const statusHandlers = createFilterHandler('status');
+
   const handleSeverityChange = (values: string[]) => {
-    onFiltersChange({
-      ...filters,
-      severity: values as AlertSeverity[],
-    });
+    severityHandlers.onChange(values as AlertSeverity[]);
   };
+  const handleEventChange = eventHandlers.onChange;
+  const handleStatusChange = statusHandlers.onChange;
 
-  const handleEventChange = (values: string[]) => {
-    onFiltersChange({
-      ...filters,
-      event: values,
-    });
-  };
-
-  const handleStatusChange = (values: string[]) => {
-    onFiltersChange({
-      ...filters,
-      status: values,
-    });
-  };
-
-  const removeSeverity = (severityToRemove: string) => {
-    onFiltersChange({
-      ...filters,
-      severity: (filters.severity || []).filter(s => s !== severityToRemove),
-    });
-  };
-
-  const removeEvent = (eventToRemove: string) => {
-    onFiltersChange({
-      ...filters,
-      event: (filters.event || []).filter(e => e !== eventToRemove),
-    });
-  };
-
-  const removeStatus = (statusToRemove: string) => {
-    onFiltersChange({
-      ...filters,
-      status: (filters.status || []).filter(s => s !== statusToRemove),
-    });
-  };
+  const removeSeverity = severityHandlers.onRemove;
+  const removeEvent = eventHandlers.onRemove;
+  const removeStatus = statusHandlers.onRemove;
 
   const clearAllFilters = () => {
     onFiltersChange({

@@ -1,6 +1,7 @@
 import { Clear } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { UI_TIMING } from '../../../constants';
 
 interface SearchTextFilterProps {
   searchText: string;
@@ -17,7 +18,7 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onSearchTextChange(localSearchText);
-    }, 300); // 300ms
+    }, UI_TIMING.SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);
   }, [localSearchText, onSearchTextChange]);

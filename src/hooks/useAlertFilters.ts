@@ -30,12 +30,14 @@ export function useAlertFilters(alerts: AlertProperties[] = []) {
   const filterOptions = useMemo(() => getFilterOptions(alerts), [alerts]);
 
   const handleSort = (field: SortFieldType) => {
-    if (sortBy === field) {
-      setSortDirection(
+    const isCurrentSortField = sortBy === field;
+
+    if (isCurrentSortField) {
+      const toggledDirection =
         sortDirection === SortDirection.ASC
           ? SortDirection.DESC
-          : SortDirection.ASC
-      );
+          : SortDirection.ASC;
+      setSortDirection(toggledDirection);
     } else {
       setSortBy(field);
       setSortDirection(SortDirection.DESC);

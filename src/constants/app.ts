@@ -38,3 +38,8 @@ export const DATE_RANGE_PRESETS = {
   MILLISECONDS_PER_DAY: 24 * 60 * 60 * 1000,
   PRESET_TOLERANCE_MS: 60 * 1000,
 } as const;
+
+export const UI_TIMING = {
+  SEARCH_DEBOUNCE_MS: 300,
+  ANIMATION_DURATION_MS: 200,
+} as const;

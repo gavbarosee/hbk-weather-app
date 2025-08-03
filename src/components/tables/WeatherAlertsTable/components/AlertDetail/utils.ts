@@ -23,24 +23,33 @@ export const getCertaintyColor = (certainty: string) => {
 };
 
 export const getTimeUntilExpiry = (expiresString: string) => {
-  const expires = new Date(expiresString);
-  const now = new Date();
-  const diffMs = expires.getTime() - now.getTime();
+  const expiryTime = new Date(expiresString);
+  const currentTime = new Date();
+  const timeDifferenceMs = expiryTime.getTime() - currentTime.getTime();
 
-  if (diffMs <= 0) {
+  if (timeDifferenceMs <= 0) {
     return 'Expired';
   }
 
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffDays = Math.floor(diffHours / 24);
+  const formatTimeRemaining = (value: number, unit: string) => {
+    const pluralizedUnit = value === 1 ? unit : `${unit}s`;
+    return `${value} ${pluralizedUnit} remaining`;
+  };
 
-  if (diffDays > 0) {
-    return `${diffDays} day${diffDays > 1 ? 's' : ''} remaining`;
-  } else if (diffHours > 0) {
-    return `${diffHours} hour${diffHours > 1 ? 's' : ''} remaining`;
+  const MILLISECONDS_PER_MINUTE = 1000 * 60;
+  const MILLISECONDS_PER_HOUR = MILLISECONDS_PER_MINUTE * 60;
+  const HOURS_PER_DAY = 24;
+
+  const totalHours = Math.floor(timeDifferenceMs / MILLISECONDS_PER_HOUR);
+  const totalDays = Math.floor(totalHours / HOURS_PER_DAY);
+
+  if (totalDays > 0) {
+    return formatTimeRemaining(totalDays, 'day');
+  } else if (totalHours > 0) {
+    return formatTimeRemaining(totalHours, 'hour');
   } else {
-    const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} remaining`;
+    const totalMinutes = Math.floor(timeDifferenceMs / MILLISECONDS_PER_MINUTE);
+    return formatTimeRemaining(totalMinutes, 'minute');
   }
 };
 

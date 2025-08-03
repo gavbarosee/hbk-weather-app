@@ -87,12 +87,16 @@ export function applyAlertFilters(
 }
 
 export function getFilterOptions(alerts: AlertProperties[]): FilterOptions {
+  const extractUniqueValues = <T>(getValue: (alert: AlertProperties) => T) => {
+    const allValues = alerts.map(getValue);
+    const uniqueValues = [...new Set(allValues)];
+    return uniqueValues.filter(Boolean);
+  };
+
   return {
-    severities: [...new Set(alerts.map(alert => alert.severity))].filter(
-      Boolean
-    ),
-    events: [...new Set(alerts.map(alert => alert.event))].filter(Boolean),
-    statuses: [...new Set(alerts.map(alert => alert.status))].filter(Boolean),
+    severities: extractUniqueValues(alert => alert.severity),
+    events: extractUniqueValues(alert => alert.event),
+    statuses: extractUniqueValues(alert => alert.status),
   };
 }
 
@@ -101,30 +105,47 @@ export function sortAlerts(
   sortBy: SortFieldType,
   sortDirection: SortDirectionType = SortDirection.DESC
 ): AlertProperties[] {
-  const sorted = [...alerts].sort((a, b) => {
+  const compareByDate = (dateA: string, dateB: string) => {
+    const timeA = new Date(dateA).getTime();
+    const timeB = new Date(dateB).getTime();
+    return timeA - timeB;
+  };
+
+  const compareBySeverity = (severityA: string, severityB: string) => {
+    const getSeverityRank = (severity: string) =>
+      SEVERITY_ORDER[severity as keyof typeof SEVERITY_ORDER] || 0;
+
+    const rankA = getSeverityRank(severityA);
+    const rankB = getSeverityRank(severityB);
+    return rankA - rankB;
+  };
+
+  const compareByText = (textA: string | null, textB: string | null) => {
+    const safeTextA = textA || '';
+    const safeTextB = textB || '';
+    return safeTextA.localeCompare(safeTextB);
+  };
+
+  const sorted = [...alerts].sort((alertA, alertB) => {
     let comparison = 0;
 
     switch (sortBy) {
       case SortField.EFFECTIVE:
-        comparison =
-          new Date(a.effective).getTime() - new Date(b.effective).getTime();
+        comparison = compareByDate(alertA.effective, alertB.effective);
         break;
       case SortField.EXPIRES:
-        comparison =
-          new Date(a.expires).getTime() - new Date(b.expires).getTime();
+        comparison = compareByDate(alertA.expires, alertB.expires);
         break;
-      case SortField.SEVERITY: {
-        comparison =
-          (SEVERITY_ORDER[a.severity as keyof typeof SEVERITY_ORDER] || 0) -
-          (SEVERITY_ORDER[b.severity as keyof typeof SEVERITY_ORDER] || 0);
+      case SortField.SEVERITY:
+        comparison = compareBySeverity(alertA.severity, alertB.severity);
         break;
-      }
       case SortField.EVENT:
-        comparison = (a.event || '').localeCompare(b.event || '');
+        comparison = compareByText(alertA.event, alertB.event);
         break;
     }
 
-    return sortDirection === SortDirection.ASC ? comparison : -comparison;
+    const isAscending = sortDirection === SortDirection.ASC;
+    return isAscending ? comparison : -comparison;
   });
 
   return sorted;

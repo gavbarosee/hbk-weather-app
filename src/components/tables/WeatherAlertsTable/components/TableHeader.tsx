@@ -65,13 +65,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             width: { xs: '20%', sm: 'auto' },
           }}
         >
-          <TableSortLabel
-            active={sortBy === 'effective'}
-            direction={sortBy === 'effective' ? sortDirection : 'asc'}
-            onClick={() => handleSort('effective')}
-          >
-            Area
-          </TableSortLabel>
+          Area
         </TableCell>
         <TableCell
           sx={{

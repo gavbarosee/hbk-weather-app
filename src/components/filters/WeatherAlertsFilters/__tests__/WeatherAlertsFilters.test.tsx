@@ -70,11 +70,14 @@ describe('WeatherAlertsFilters', () => {
       const searchInput = screen.getByLabelText('Search alerts');
       await user.type(searchInput, 'storm');
 
+      // wait for debounced search to trigger (300ms + buffer)
+      await new Promise(resolve => setTimeout(resolve, 350));
+
       expect(mockOnFiltersChange).toHaveBeenCalled();
 
       expect(mockOnFiltersChange).toHaveBeenLastCalledWith({
         ...defaultProps.filters,
-        searchText: 'm',
+        searchText: 'storm',
       });
     });
 
@@ -112,6 +115,9 @@ describe('WeatherAlertsFilters', () => {
 
       const clearButton = screen.getByTestId('clear-search-button');
       await user.click(clearButton);
+
+      // Wait for debounced search to trigger (300ms + buffer)
+      await new Promise(resolve => setTimeout(resolve, 350));
 
       expect(mockOnFiltersChange).toHaveBeenCalledWith({
         ...defaultProps.filters,
