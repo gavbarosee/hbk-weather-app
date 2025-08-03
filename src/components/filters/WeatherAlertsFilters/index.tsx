@@ -98,61 +98,72 @@ export const WeatherAlertsFilters: React.FC<WeatherAlertsFiltersProps> = ({
           onClearAll={clearAllFilters}
         />
 
-        <FilterSection title="Date Range">
-          <DateRangeFilter
-            dateRange={dateRange}
-            onDateRangeChange={onDateRangeChange}
-          />
-        </FilterSection>
-
-        <FilterSection title="Text Search">
-          <SearchTextFilter
-            searchText={filters.searchText || ''}
-            onSearchTextChange={handleSearchTextChange}
-          />
-        </FilterSection>
-
-        <FilterSection title="Filter Options">
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: '1fr 1fr',
-                md: '1fr 1fr 1fr',
-              },
-              gap: { xs: 1.5, sm: 2 },
-              width: '100%',
-            }}
-          >
-            <MultiSelectFilter
-              label="Severity"
-              labelId="severity-label"
-              value={filters.severity || []}
-              options={availableOptions.severities}
-              onChange={handleSeverityChange}
-              onRemove={removeSeverity}
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              md: '1fr 1fr',
+            },
+            gap: { xs: 2, md: 3 },
+            alignItems: 'start',
+          }}
+        >
+          {/* DATE RANGE INPUTS */}
+          <FilterSection title="Date Range">
+            <DateRangeFilter
+              dateRange={dateRange}
+              onDateRangeChange={onDateRangeChange}
             />
+          </FilterSection>
 
-            <MultiSelectFilter
-              label="Event Type"
-              labelId="event-label"
-              value={filters.event || []}
-              options={availableOptions.events}
-              onChange={handleEventChange}
-              onRemove={removeEvent}
-            />
+          {/* SEARCH AND FILTER OPTIONS */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+            <FilterSection title="Text Search">
+              <SearchTextFilter
+                searchText={filters.searchText || ''}
+                onSearchTextChange={handleSearchTextChange}
+              />
+            </FilterSection>
 
-            <MultiSelectFilter
-              label="Status"
-              labelId="status-label"
-              value={filters.status || []}
-              options={availableOptions.statuses}
-              onChange={handleStatusChange}
-              onRemove={removeStatus}
-            />
+            <FilterSection title="Filter Options">
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1.5,
+                }}
+              >
+                <MultiSelectFilter
+                  label="Severity"
+                  labelId="severity-label"
+                  value={filters.severity || []}
+                  options={availableOptions.severities}
+                  onChange={handleSeverityChange}
+                  onRemove={removeSeverity}
+                />
+
+                <MultiSelectFilter
+                  label="Event Type"
+                  labelId="event-label"
+                  value={filters.event || []}
+                  options={availableOptions.events}
+                  onChange={handleEventChange}
+                  onRemove={removeEvent}
+                />
+
+                <MultiSelectFilter
+                  label="Status"
+                  labelId="status-label"
+                  value={filters.status || []}
+                  options={availableOptions.statuses}
+                  onChange={handleStatusChange}
+                  onRemove={removeStatus}
+                />
+              </Box>
+            </FilterSection>
           </Box>
-        </FilterSection>
+        </Box>
       </CardContent>
     </Card>
   );

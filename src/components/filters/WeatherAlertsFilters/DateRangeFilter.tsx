@@ -33,9 +33,8 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
       data-testid="date-range-filter"
       sx={{
         display: 'flex',
-        flexDirection: { xs: 'column', sm: 'row' },
+        flexDirection: 'column',
         gap: 2,
-        flexWrap: 'wrap',
       }}
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -49,8 +48,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
             textField: {
               size: 'small',
               sx: {
-                minWidth: { xs: '100%', sm: 160 },
-                maxWidth: { xs: '100%', sm: 200 },
+                width: '100%',
               },
               InputProps: {
                 endAdornment: dateRange.startDate ? (
@@ -80,8 +78,7 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
             textField: {
               size: 'small',
               sx: {
-                minWidth: { xs: '100%', sm: 160 },
-                maxWidth: { xs: '100%', sm: 200 },
+                width: '100%',
               },
               InputProps: {
                 endAdornment: dateRange.endDate ? (

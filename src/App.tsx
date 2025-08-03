@@ -43,7 +43,15 @@ function App() {
       <HeaderBar title="Weather Alerts Dashboard" />
 
       {/* MAIN CONTENT */}
-      <Box sx={{ py: { xs: 1, sm: 2, md: 3 }, px: { xs: 1, sm: 2, md: 3 } }}>
+      <Box
+        sx={{
+          pt: { xs: 1, sm: 2, md: 3, lg: 4 },
+          pb: { xs: 3, sm: 4, md: 6, lg: 10 },
+          px: { xs: 2, sm: 4, md: 6, lg: 8, xl: 12 },
+          maxWidth: '1400px',
+          mx: 'auto',
+        }}
+      >
         {/* FILTERS SECTION */}
         <Box sx={{ mb: 3 }}>
           <WeatherAlertsFilters

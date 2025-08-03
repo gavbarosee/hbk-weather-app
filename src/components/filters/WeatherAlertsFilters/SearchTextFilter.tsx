@@ -28,7 +28,7 @@ export const SearchTextFilter: React.FC<SearchTextFilterProps> = ({
       placeholder="Search headlines, descriptions, areas..."
       size="small"
       fullWidth
-      sx={{ maxWidth: { xs: '100%', sm: 400 } }}
+      sx={{ width: '100%' }}
       InputProps={{
         endAdornment: searchText ? (
           <InputAdornment position="end">
