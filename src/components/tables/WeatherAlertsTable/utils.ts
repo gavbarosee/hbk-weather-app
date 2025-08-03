@@ -26,6 +26,10 @@ export const formatDateTime = (dateString: string) => {
   return new Date(dateString).toLocaleString();
 };
 
-// Note: SortField and SortDirection types are now defined in src/types/enums.ts
-// Re-export them here for backward compatibility if needed
+export const formatDateTimeWithZone = (dateString: string) => {
+  return new Date(dateString).toLocaleString(undefined, {
+    timeZoneName: 'short',
+  });
+};
+
 export type { SortDirection, SortField } from '../../../types/enums';

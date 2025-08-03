@@ -2,7 +2,7 @@ import { AccessTime } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import type { AlertProperties } from '../../../../../../types/weather';
-import { formatDateTime } from '../../../utils';
+import { formatDateTimeWithZone } from '../../../utils';
 import { getTimeUntilExpiry, isExpired } from '../utils';
 
 interface TimingSectionProps {
@@ -29,7 +29,9 @@ export const TimingSection: React.FC<TimingSectionProps> = ({ alert }) => {
               Sent
             </Typography>
           </Box>
-          <Typography variant="body1">{formatDateTime(alert.sent)}</Typography>
+          <Typography variant="body1">
+            {formatDateTimeWithZone(alert.sent)}
+          </Typography>
         </Box>
 
         <Box>
@@ -40,7 +42,7 @@ export const TimingSection: React.FC<TimingSectionProps> = ({ alert }) => {
             </Typography>
           </Box>
           <Typography variant="body1">
-            {formatDateTime(alert.effective)}
+            {formatDateTimeWithZone(alert.effective)}
           </Typography>
         </Box>
 
@@ -53,7 +55,7 @@ export const TimingSection: React.FC<TimingSectionProps> = ({ alert }) => {
               </Typography>
             </Box>
             <Typography variant="body1">
-              {formatDateTime(alert.onset)}
+              {formatDateTimeWithZone(alert.onset)}
             </Typography>
           </Box>
         )}
@@ -69,8 +71,8 @@ export const TimingSection: React.FC<TimingSectionProps> = ({ alert }) => {
             variant="body1"
             color={isExpired(alert.expires) ? 'error.main' : 'text.primary'}
           >
-            {formatDateTime(alert.expires)} ({getTimeUntilExpiry(alert.expires)}
-            )
+            {formatDateTimeWithZone(alert.expires)} (
+            {getTimeUntilExpiry(alert.expires)})
           </Typography>
         </Box>
 
@@ -83,7 +85,7 @@ export const TimingSection: React.FC<TimingSectionProps> = ({ alert }) => {
               </Typography>
             </Box>
             <Typography variant="body1">
-              {formatDateTime(alert.ends)}
+              {formatDateTimeWithZone(alert.ends)}
             </Typography>
           </Box>
         )}

@@ -1,7 +1,7 @@
 import { AccessTime } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { formatDateTime } from '../utils';
+import { formatDateTimeWithZone } from '../utils';
 
 interface DateTimeCellProps {
   dateTime: string;
@@ -17,7 +17,7 @@ export const DateTimeCell: React.FC<DateTimeCellProps> = ({
       variant="body2"
       sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
     >
-      {formatDateTime(dateTime)}
+      {formatDateTimeWithZone(dateTime)}
     </Typography>
   );
 
